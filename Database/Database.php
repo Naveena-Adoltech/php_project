@@ -6,7 +6,7 @@ require_once("config/config.php");
 
     private $host= DB_HOST;
     private $user = DB_USER;
-    private $pass = DB_PASS;
+    private $pass = DB_PWD;
     private $dbname= DB_NAME;
 
     private $connection;
@@ -14,8 +14,8 @@ require_once("config/config.php");
     private $stmt;
     private $dbconnected = false;
 
-public function __construct() {
-  $dsn = 'mysql:host=' .$this->host .';dbname' .$this->dbname;
+ public function __construct() {
+  $dsn = 'mysql:host=' .$this->host.';dbname=' .$this->dbname;
   $options= array(
      PDO::ATTR_PERSISTENT => true ,
      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -23,8 +23,13 @@ public function __construct() {
 
 try {
     $this->connection=new PDO($dsn,$this->user,$this->pass,$options);
-} catch(PDOException $e) {
+    $this->dbconnected=true;
+} 
+catch(PDOException $e) {
+
+    echo $e->getmessage();die;
     $this->error=$e->getMessage(). PHP_EOL;
+    $this->dbconnected=false;
 }
 }
 public function getError() {
@@ -33,10 +38,12 @@ public function getError() {
 public function isConnected() {
     return $this->dbconnected;
 }
+
 // prepare statement with query
 public function query($query) {
     $this->stmt=$this->connection->prepare($query);
 }
+
 // execute the prepare statement
 public function execute() {
     return $this->stmt->execute();
@@ -44,11 +51,12 @@ public function execute() {
 
 public function resultset() {
     $this->execute();
-    return $this->stmt->fetchALL(PDO::FETCH_OBJ);
+    return $this->stmt->fetchAll(PDO::FETCH_OBJ);
 }
 public function rowCount() {
     return $this->stmt->rowCount();
  }
+
  //get single record as object
  public function single() {
     $this->execute();
@@ -60,12 +68,15 @@ public function rowCount() {
      case is_int($value):
          $type = PDO::PARAM_INT;
          break;
+
      case is_bool($value):
          $type = PDO::PARAM_BOOL;
          break;
+
      case is_null($value):
          $type = PDO::PARAM_NULL;
          break;
+
      default:
          $type = PDO::PARAM_STR;
      }
@@ -73,3 +84,4 @@ public function rowCount() {
      $this->stmt->bindValue($param,$value,$type);
 }
  }
+ ?>
