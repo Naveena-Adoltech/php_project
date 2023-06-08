@@ -14,7 +14,7 @@ $db->addPost($data);
 var_dump($db->getPost());
 
 //update
-$data=['id'=>1,'title'=>'This is Last Record','content'=>'Enjoying the php OOP'];
+$data=['id'=>1,'title'=>[UPDATED] 'This is Last Record','content'=>'Enjoying the php OOP'];
 $db->updatePost($data);
 var_dump($db->getPost());
 
