@@ -33,7 +33,7 @@ class Post {
     }
 
     function updatePost($data) {
-        $this->db->query("UPDATE tbl_oop_post SET title=:title,content=:content,id=:id");
+        $this->db->query("UPDATE tbl_oop_post SET title=:title,content=:content where id=:id");
         $this->db->bind(':id' , $data['id']);
         $this->db->bind(':title' , $data['title']);
         $this->db->bind(':content' , $data['content']);
