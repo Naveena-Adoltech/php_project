@@ -19,5 +19,4 @@
  $teacher1=new teacher();
  $teacher1->helloTeacher();
  $teacher1->helloUniversity();//using the child class object to call the parent class method
- $teacher1->getUniversityName();
- echo $teacher1->getUniversityName();
+ 

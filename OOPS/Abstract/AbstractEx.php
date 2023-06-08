@@ -22,4 +22,3 @@ $car1= new SportsCar();
 $car1->applyBreak();
 $car1->increaseSpeed();
 $car1->decreaseSpeed();
-$car1->applyingBreak();
